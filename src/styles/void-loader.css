@@ -32,12 +32,11 @@
   opacity: 0.5;
   
   --uib-size: 45px;
-  --uib-color: var(--uib-color-black, black);
+  --uib-color: hsl(var(--primary));
   --uib-speed: 2s;
   
-  animation: void-pulse var(--uib-speed) linear infinite;
-  transform: scale(0);
-  opacity: 0;
+  animation: void-pulse var(--uib-speed) ease-in-out infinite;
+  transform: scale(2);
 }
 
 .void-loader::after {
@@ -54,15 +53,15 @@
 
 @keyframes void-pulse {
   0% {
-    transform: scale(0);
+    transform: scale(2);
     opacity: 1;
   }
   100% {
-    transform: scale(2);
+    transform: scale(0);
     opacity: 0;
   }
 }
 
 .dark .void-loader {
-  --uib-color: var(--accent);
+  --uib-color: hsl(var(--accent));
 }
