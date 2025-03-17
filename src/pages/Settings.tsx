@@ -1,4 +1,3 @@
-import { Sidebar, SidebarContent, SidebarProvider } from "@/components/ui/sidebar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ModelsTab from "@/components/settings/ModelsTab";
 import AccountTab from "@/components/settings/AccountTab";
@@ -7,34 +6,34 @@ import AppearanceTab from "@/components/settings/AppearanceTab";
 
 export default function Settings() {
   return (
-    <SidebarProvider>
-      <div className="flex h-screen">
-        <Sidebar>
-          <SidebarContent className="py-4">
-            <Tabs defaultValue="models" className="w-full" orientation="vertical">
-              <TabsList className="grid w-full gap-2">
-                <TabsTrigger value="models">Models & Providers</TabsTrigger>
-                <TabsTrigger value="account">Account</TabsTrigger>
-                <TabsTrigger value="security">Security</TabsTrigger>
-                <TabsTrigger value="appearance">Appearance</TabsTrigger>
-              </TabsList>
-              
-              <TabsContent value="models">
-                <ModelsTab />
-              </TabsContent>
-              <TabsContent value="account">
-                <AccountTab />
-              </TabsContent>
-              <TabsContent value="security">
-                <SecurityTab />
-              </TabsContent>
-              <TabsContent value="appearance">
-                <AppearanceTab />
-              </TabsContent>
-            </Tabs>
-          </SidebarContent>
-        </Sidebar>
+    <div className="flex h-screen bg-background">
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <div className="flex-1 overflow-y-auto py-6 px-8">
+          <h1 className="text-3xl font-bold mb-6">Settings</h1>
+          
+          <Tabs defaultValue="models" className="w-full">
+            <TabsList className="mb-8">
+              <TabsTrigger value="models">Models & Providers</TabsTrigger>
+              <TabsTrigger value="account">Account</TabsTrigger>
+              <TabsTrigger value="security">Security</TabsTrigger>
+              <TabsTrigger value="appearance">Appearance</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="models" className="mt-0">
+              <ModelsTab />
+            </TabsContent>
+            <TabsContent value="account" className="mt-0">
+              <AccountTab />
+            </TabsContent>
+            <TabsContent value="security" className="mt-0">
+              <SecurityTab />
+            </TabsContent>
+            <TabsContent value="appearance" className="mt-0">
+              <AppearanceTab />
+            </TabsContent>
+          </Tabs>
+        </div>
       </div>
-    </SidebarProvider>
+    </div>
   );
 }
