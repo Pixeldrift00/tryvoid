@@ -1,10 +1,22 @@
 .void-loader {
-  --uib-size: 45px;
-  --uib-color: var(--uib-color-black, black);
-  --uib-speed: 2s;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: var(--uib-size);
   width: var(--uib-size);
+}
+
+.void-loader > div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  background-color: var(--uib-color);
+  opacity: 0.5;
+  animation: void-pulse var(--uib-speed) ease-in-out infinite;
 }
 
 .void-loader::before,
@@ -13,14 +25,18 @@
 .void-loader > div::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
   height: 100%;
   width: 100%;
   border-radius: 50%;
   background-color: var(--uib-color);
+  opacity: 0.5;
+  
+  --uib-size: 45px;
+  --uib-color: var(--uib-color-black, black);
+  --uib-speed: 2s;
+  
   animation: void-pulse var(--uib-speed) linear infinite;
-  transform: scale(1);
+  transform: scale(0);
   opacity: 0;
 }
 
@@ -29,7 +45,7 @@
 }
 
 .void-loader > div::before {
-  animation-delay: calc(var(--uib-speed) * -0.5);
+  animation-delay: calc(var(--uib-speed) / -2);
 }
 
 .void-loader > div::after {
@@ -38,15 +54,15 @@
 
 @keyframes void-pulse {
   0% {
-    transform: scale(1);
+    transform: scale(0);
     opacity: 1;
   }
   100% {
-    transform: scale(0);
+    transform: scale(2);
     opacity: 0;
   }
 }
 
 .dark .void-loader {
-  --uib-color: var(--uib-color-white, white);
+  --uib-color: var(--accent);
 }

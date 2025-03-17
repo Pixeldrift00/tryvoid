@@ -1,24 +1,29 @@
-import { cn } from "@/lib/utils";
+import React from 'react';
+import { cn } from '@/lib/utils';
 
 interface VoidLoaderProps {
   size?: number;
+  color?: string;
   className?: string;
 }
 
-export function VoidLoader({ size = 45, className }: VoidLoaderProps) {
+export const VoidLoader: React.FC<VoidLoaderProps> = ({ 
+  size = 40, 
+  color = 'currentColor',
+  className 
+}) => {
   return (
     <div
-      className={cn(
-        "relative transition-colors",
-        "dark:--uib-color-white --uib-color-black",
-        className
-      )}
+      className={cn("void-loader", className)}
       style={{
-        height: size,
+        '--uib-size': `${size}px`,
+        '--uib-color': color,
+        '--uib-speed': '1.5s',
         width: size,
-      }}
+        height: size,
+      } as React.CSSProperties}
     >
-      <div className="absolute inset-0" />
+      <div></div>
     </div>
   );
-}
+};
