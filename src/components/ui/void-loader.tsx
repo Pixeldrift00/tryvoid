@@ -20,7 +20,7 @@ export const VoidLoader: React.FC<VoidLoaderProps> = ({
         '--uib-color': color,
       } as React.CSSProperties}
     >
-      {[...Array(12)].map((_, i) => (
+      {[...Array(4)].map((_, i) => (
         <div key={i} className={`ring ring-${i + 1}`} />
       ))}
     </div>
