@@ -85,10 +85,12 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
               <div className="w-2 h-2 rounded-full bg-void-900 dark:bg-void-50 transition-colors" />
             </button>
             {/* Void SVG logo */}
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="12" cy="12" r="10" className="stroke-void-900 dark:stroke-void-50" strokeWidth="2"/>
-              <circle cx="12" cy="12" r="5" className="fill-void-900 dark:fill-void-50"/>
-            </svg>
+            <div className="flex items-center justify-center">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" className="stroke-void-900 dark:stroke-void-50" strokeWidth="2"/>
+                <circle cx="12" cy="12" r="5" className="fill-void-900 dark:fill-void-50"/>
+              </svg>
+            </div>
           </div>
           <div className="flex items-center space-x-3">
             <button 

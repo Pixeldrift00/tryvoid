@@ -1,47 +1,74 @@
+import { useNavigate } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ModelsTab from "@/components/settings/ModelsTab";
 import AccountTab from "@/components/settings/AccountTab";
 import SecurityTab from "@/components/settings/SecurityTab";
 import AppearanceTab from "@/components/settings/AppearanceTab";
+import { ArrowLeft, Settings2, UserCircle, Shield, Palette } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 export default function Settings() {
+  const navigate = useNavigate();
   const isMobile = useIsMobile();
+  const [hoveredTab, setHoveredTab] = useState<string | null>(null);
+
+  const tabs = [
+    { id: "models", label: "Models & Providers", icon: Settings2 },
+    { id: "account", label: "Account", icon: UserCircle },
+    { id: "security", label: "Security", icon: Shield },
+    { id: "appearance", label: "Appearance", icon: Palette },
+  ];
 
   return (
     <div className="flex min-h-screen bg-background">
-      <div className="flex-1 flex flex-col w-full max-w-6xl mx-auto">
-        <div className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
+      <div className="flex-1 flex">
+        {/* Back Button */}
+        <Button
+          variant="ghost"
+          className="absolute top-4 left-4 p-2"
+          onClick={() => navigate(-1)}
+        >
+          <ArrowLeft className="h-5 w-5" />
+        </Button>
+
+        {/* Vertical Tabs */}
+        <div className="w-16 border-r border-border shrink-0 relative">
+          <TabsList className="flex flex-col gap-2 fixed pt-16 w-16">
+            {tabs.map((tab) => (
+              <div
+                key={tab.id}
+                className="relative"
+                onMouseEnter={() => setHoveredTab(tab.id)}
+                onMouseLeave={() => setHoveredTab(null)}
+              >
+                <TabsTrigger
+                  value={tab.id}
+                  className="w-16 h-16 rounded-none flex items-center justify-center"
+                >
+                  <tab.icon className="h-5 w-5" />
+                </TabsTrigger>
+                {/* Tooltip */}
+                <div
+                  className={cn(
+                    "absolute left-16 top-1/2 -translate-y-1/2 bg-popover text-popover-foreground px-3 py-1.5 rounded-md whitespace-nowrap z-50 transition-all",
+                    hoveredTab === tab.id ? "opacity-100 translate-x-2" : "opacity-0 translate-x-0 pointer-events-none"
+                  )}
+                >
+                  {tab.label}
+                </div>
+              </div>
+            ))}
+          </TabsList>
+        </div>
+
+        {/* Content */}
+        <div className="flex-1 p-4 md:p-6 lg:p-8 pt-16">
           <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">Settings</h1>
           
-          <Tabs defaultValue="models" className="w-full">
-            <TabsList className="mb-6 md:mb-8 w-full flex flex-wrap gap-2">
-              <TabsTrigger 
-                value="models" 
-                className="flex-1 min-w-[120px]"
-              >
-                Models & Providers
-              </TabsTrigger>
-              <TabsTrigger 
-                value="account"
-                className="flex-1 min-w-[120px]"
-              >
-                Account
-              </TabsTrigger>
-              <TabsTrigger 
-                value="security"
-                className="flex-1 min-w-[120px]"
-              >
-                Security
-              </TabsTrigger>
-              <TabsTrigger 
-                value="appearance"
-                className="flex-1 min-w-[120px]"
-              >
-                Appearance
-              </TabsTrigger>
-            </TabsList>
-            
+          <Tabs defaultValue="models" orientation="vertical" className="w-full">
             <div className="space-y-4 md:space-y-6">
               <TabsContent value="models">
                 <ModelsTab />
