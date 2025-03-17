@@ -31,7 +31,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
     <div className="min-h-screen w-full flex relative bg-gradient-to-b from-void-50 to-void-100 dark:from-void-900 dark:to-void-950 transition-colors duration-300">
       {/* Sidebar */}
       <div className={cn(
-        "fixed left-0 top-0 h-full w-16 bg-background/80 backdrop-blur-sm border-r border-void-200 dark:border-void-800 flex flex-col items-center py-4 z-50 transition-transform duration-300",
+        "fixed left-0 top-0 h-full w-16 bg-background/60 backdrop-blur-sm border-r border-void-200 dark:border-void-800 flex flex-col items-center py-4 z-50 transition-transform duration-300",
         isSidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
       )}>
         <div className="flex-1" />
@@ -39,8 +39,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           <button
             onClick={() => navigate('/')}
             className={cn(
-              "p-3 rounded-lg transition-all hover:bg-void-200 dark:hover:bg-void-800",
-              location.pathname === '/' && "bg-void-200 dark:bg-void-800"
+              "p-3 rounded-lg transition-all hover:bg-void-200/80 dark:hover:bg-void-800/80",
+              location.pathname === '/' && "bg-void-200/80 dark:bg-void-800/80"
             )}
             aria-label="Chat"
           >
@@ -49,8 +49,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           <button
             onClick={() => navigate('/home')}
             className={cn(
-              "p-3 rounded-lg transition-all hover:bg-void-200 dark:hover:bg-void-800",
-              location.pathname === '/home' && "bg-void-200 dark:bg-void-800"
+              "p-3 rounded-lg transition-all hover:bg-void-200/80 dark:hover:bg-void-800/80",
+              location.pathname === '/home' && "bg-void-200/80 dark:bg-void-800/80"
             )}
             aria-label="Home"
           >
@@ -59,8 +59,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           <button
             onClick={() => navigate('/settings')}
             className={cn(
-              "p-3 rounded-lg transition-all hover:bg-void-200 dark:hover:bg-void-800",
-              location.pathname === '/settings' && "bg-void-200 dark:bg-void-800"
+              "p-3 rounded-lg transition-all hover:bg-void-200/80 dark:hover:bg-void-800/80",
+              location.pathname === '/settings' && "bg-void-200/80 dark:bg-void-800/80"
             )}
             aria-label="Settings"
           >
@@ -72,7 +72,14 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
       {/* Main Content */}
       <div className="flex-1 flex flex-col md:pl-16">
         <header className="w-full px-4 py-3 glass-panel fixed top-0 z-40 flex justify-between items-center border-b border-void-200 dark:border-void-800">
-          <div className="flex items-center">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+              className="md:hidden"
+              aria-label="Toggle sidebar"
+            >
+              <div className="w-2 h-2 rounded-full bg-void-900 dark:bg-void-50 transition-colors" />
+            </button>
             <h1 className="text-xl font-medium tracking-tight">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-void-900 to-void-600 dark:from-void-50 dark:to-void-300">
                 void
