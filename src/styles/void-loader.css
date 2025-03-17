@@ -26,7 +26,7 @@
   border-radius: 50%;
   background-color: var(--uib-color);
   opacity: 0;
-  animation: pulse var(--uib-speed) linear infinite;
+  animation: stream var(--uib-speed) linear infinite;
 }
 
 /* Each circle is at a fixed point in the animation */
