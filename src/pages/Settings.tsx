@@ -68,7 +68,7 @@ export default function Settings() {
         <div className="flex-1 p-4 md:p-6 lg:p-8 pt-16">
           <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">Settings</h1>
           
-          <Tabs defaultValue="models" orientation="vertical" className="w-full">
+          <Tabs defaultValue="models" className="w-full">
             <div className="space-y-4 md:space-y-6">
               <TabsContent value="models">
                 <ModelsTab />
