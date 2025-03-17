@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,20 +9,35 @@ import AddProviderModal from './AddProviderModal';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { cn } from '@/lib/utils';
 
 export default function ModelsTab() {
-  const { providers, registerProvider, removeProvider, updateProviderConfig, activeProviderId, setActiveProvider } = useLLMConfig();
+  const { 
+    providers, 
+    registerProvider, 
+    removeProvider, 
+    updateProviderConfig, 
+    activeProviderId, 
+    setActiveProvider 
+  } = useLLMConfig();
+  
   const [editingProvider, setEditingProvider] = useState<string | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
 
-  const handleSaveProvider = (provider: BaseProvider) => {
+  const handleSaveProvider = useCallback((provider: BaseProvider) => {
     updateProviderConfig(provider.id, provider);
     setEditingProvider(null);
-  };
+  }, [updateProviderConfig]);
 
-  const handleActivateProvider = (providerId: string) => {
+  const handleActivateProvider = useCallback((providerId: string) => {
     setActiveProvider(providerId);
-  };
+  }, [setActiveProvider]);
+
+  const handleRemoveProvider = useCallback((providerId: string) => {
+    if (window.confirm('Are you sure you want to remove this provider?')) {
+      removeProvider(providerId);
+    }
+  }, [removeProvider]);
 
   return (
     <div className="space-y-6">
@@ -31,7 +46,10 @@ export default function ModelsTab() {
           <h2 className="text-2xl font-bold">Models & Providers</h2>
           <p className="text-muted-foreground">Configure your AI model providers and API keys</p>
         </div>
-        <Button onClick={() => setShowAddModal(true)}>
+        <Button 
+          onClick={() => setShowAddModal(true)}
+          className="transition-all hover:scale-105"
+        >
           <Plus className="w-4 h-4 mr-2" />
           Add Provider
         </Button>
@@ -39,7 +57,13 @@ export default function ModelsTab() {
 
       <div className="grid gap-4">
         {Object.values(providers).map((provider) => (
-          <Card key={provider.id}>
+          <Card 
+            key={provider.id}
+            className={cn(
+              "transition-all duration-200",
+              provider.id === activeProviderId && "border-accent"
+            )}
+          >
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <div className="flex items-center gap-3">
                 <CardTitle className="text-xl font-medium">
@@ -85,7 +109,7 @@ export default function ModelsTab() {
                   size="sm"
                   variant="ghost"
                   className="text-destructive"
-                  onClick={() => removeProvider(provider.id)}
+                  onClick={() => handleRemoveProvider(provider.id)}
                 >
                   <Trash2 className="w-4 h-4" />
                 </Button>
@@ -169,7 +193,10 @@ export default function ModelsTab() {
         ))}
       </div>
 
-      <AddProviderModal open={showAddModal} onOpenChange={setShowAddModal} />
+      <AddProviderModal 
+        open={showAddModal} 
+        onOpenChange={setShowAddModal} 
+      />
     </div>
   );
 }
