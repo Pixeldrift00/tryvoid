@@ -1,13 +1,14 @@
 .void-loader {
   --uib-size: 40px;
   --uib-color: hsl(var(--accent));
-  --uib-speed: 2.5s;
+  --uib-speed: 2s;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   height: var(--uib-size);
   width: var(--uib-size);
+  overflow: hidden;
 }
 
 .void-loader::before,
@@ -24,90 +25,60 @@
   width: 100%;
   border-radius: 50%;
   background-color: var(--uib-color);
-  opacity: 0.8;
-  animation: stream var(--uib-speed) linear infinite;
+  opacity: 0;
+  animation: pulse var(--uib-speed) linear infinite;
+}
+
+/* Each circle is at a fixed point in the animation */
+.void-loader::before {
+  animation-delay: calc(var(--uib-speed) * 0);
 }
 
 .void-loader::after {
-  animation-delay: calc(var(--uib-speed) / -8);
+  animation-delay: calc(var(--uib-speed) * 0.125);
 }
 
 .void-loader .circle-1 {
-  animation-delay: calc(var(--uib-speed) * -0.25);
+  animation-delay: calc(var(--uib-speed) * 0.25);
 }
 
 .void-loader .circle-2 {
-  animation-delay: calc(var(--uib-speed) * -0.375);
+  animation-delay: calc(var(--uib-speed) * 0.375);
 }
 
 .void-loader .circle-3 {
-  animation-delay: calc(var(--uib-speed) * -0.5);
+  animation-delay: calc(var(--uib-speed) * 0.5);
 }
 
 .void-loader .circle-4 {
-  animation-delay: calc(var(--uib-speed) * -0.625);
+  animation-delay: calc(var(--uib-speed) * 0.625);
 }
 
 .void-loader .circle-5 {
-  animation-delay: calc(var(--uib-speed) * -0.75);
+  animation-delay: calc(var(--uib-speed) * 0.75);
 }
 
 .void-loader .circle-6 {
-  animation-delay: calc(var(--uib-speed) * -0.875);
+  animation-delay: calc(var(--uib-speed) * 0.875);
 }
 
-@keyframes stream {
-  0% {
-    transform: scale(1);
-    opacity: 0;
-  }
-  10% {
-    transform: scale(0.9);
-    opacity: 0.1;
-  }
-  20% {
-    transform: scale(0.8);
-    opacity: 0.2;
-  }
-  30% {
-    transform: scale(0.7);
-    opacity: 0.3;
-  }
-  40% {
-    transform: scale(0.6);
-    opacity: 0.4;
-  }
-  50% {
-    transform: scale(0.5);
-    opacity: 0.5;
-  }
-  60% {
-    transform: scale(0.4);
-    opacity: 0.4;
-  }
-  70% {
-    transform: scale(0.3);
-    opacity: 0.3;
-  }
-  80% {
-    transform: scale(0.2);
-    opacity: 0.2;
-  }
-  90% {
-    transform: scale(0.1);
-    opacity: 0.1;
-  }
-  100% {
+@keyframes pulse {
+  0%, 100% {
     transform: scale(0);
     opacity: 0;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 0.3;
   }
 }
 
 .dark .void-loader {
   --uib-color: hsl(var(--accent));
 }
+
 /* For smaller variants (like in buttons) */
 .void-loader.small {
   --uib-size: 20px;
-  --uib-speed: 2s;
+  --uib-speed: 1.5s;
 }
