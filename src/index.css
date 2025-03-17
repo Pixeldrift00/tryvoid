@@ -1,8 +1,7 @@
+@import './styles/void-loader.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import './styles/void-loader.css';
 
 @layer base {
   :root {

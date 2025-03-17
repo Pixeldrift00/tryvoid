@@ -10,6 +10,7 @@ import { LoadingScreen } from "@/components/layout/LoadingScreen";
 const Index = React.lazy(() => import("./pages/Index"));
 const Settings = React.lazy(() => import("./pages/Settings"));
 const NotFound = React.lazy(() => import("./pages/NotFound"));
+const Test = React.lazy(() => import("./pages/Test"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             {/* add routes here */}
             <Route path="/settings" element={<Settings />} />
+            <Route path="/test" element={<Test />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
