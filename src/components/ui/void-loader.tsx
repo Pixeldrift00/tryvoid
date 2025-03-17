@@ -18,13 +18,10 @@ export const VoidLoader: React.FC<VoidLoaderProps> = ({
       style={{
         '--uib-size': `${size}px`,
         '--uib-color': color,
-        '--uib-speed': '1.5s',
-        width: size,
-        height: size,
       } as React.CSSProperties}
     >
-      {[...Array(8)].map((_, i) => (
-        <div key={i} className={`circle-${i + 1}`} />
+      {[...Array(12)].map((_, i) => (
+        <div key={i} className={`ring ring-${i + 1}`} />
       ))}
     </div>
   );
