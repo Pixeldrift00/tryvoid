@@ -15,6 +15,7 @@ export default function Settings() {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
   const [hoveredTab, setHoveredTab] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState("models");
 
   const tabs = [
     { id: "models", label: "Models & Providers", icon: Settings2 },
@@ -22,6 +23,21 @@ export default function Settings() {
     { id: "security", label: "Security", icon: Shield },
     { id: "appearance", label: "Appearance", icon: Palette },
   ];
+
+  const renderTabContent = (tabId: string) => {
+    switch (tabId) {
+      case "models":
+        return <ModelsTab />;
+      case "account":
+        return <AccountTab />;
+      case "security":
+        return <SecurityTab />;
+      case "appearance":
+        return <AppearanceTab />;
+      default:
+        return null;
+    }
+  };
 
   return (
     <Layout>
@@ -48,6 +64,7 @@ export default function Settings() {
                 >
                   <TabsTrigger
                     value={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
                     className="w-16 h-16 rounded-none flex items-center justify-center"
                   >
                     <tab.icon className="h-5 w-5" />
@@ -70,20 +87,9 @@ export default function Settings() {
           <div className="flex-1 p-4 md:p-6 lg:p-8 pt-16">
             <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">Settings</h1>
             
-            <Tabs defaultValue="models" className="w-full">
+            <Tabs value={activeTab} className="w-full">
               <div className="space-y-4 md:space-y-6">
-                <TabsContent value="models">
-                  <ModelsTab />
-                </TabsContent>
-                <TabsContent value="account">
-                  <AccountTab />
-                </TabsContent>
-                <TabsContent value="security">
-                  <SecurityTab />
-                </TabsContent>
-                <TabsContent value="appearance">
-                  <AppearanceTab />
-                </TabsContent>
+                {renderTabContent(activeTab)}
               </div>
             </Tabs>
           </div>

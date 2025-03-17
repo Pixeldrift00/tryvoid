@@ -5,9 +5,14 @@ import { useEffect, useState } from "react";
 interface LoadingScreenProps {
   delay?: number; // Delay before showing loader to prevent flash
   className?: string;
+  size?: number;
 }
 
-export function LoadingScreen({ delay = 200, className }: LoadingScreenProps) {
+export function LoadingScreen({ 
+  delay = 200, 
+  className,
+  size = 40 // Reduced from 60
+}: LoadingScreenProps) {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -21,11 +26,11 @@ export function LoadingScreen({ delay = 200, className }: LoadingScreenProps) {
     <div 
       className={cn(
         "fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm",
-        "animate-in fade-in duration-300",
+        "animate-in fade-in duration-500", // Increased duration
         className
       )}
     >
-      <VoidLoader size={60} />
+      <VoidLoader size={size} />
     </div>
   );
 }
