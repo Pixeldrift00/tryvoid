@@ -1,35 +1,39 @@
 .void-loader {
   --uib-size: 40px;
-  --uib-color: currentColor;
-  --uib-speed: 1.5s;
+  --uib-color: hsl(var(--accent));
+  --uib-speed: 2s;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   height: var(--uib-size);
   width: var(--uib-size);
-  animation: rotate var(--uib-speed) linear infinite;
 }
 
-.void-loader div {
+.void-loader::before,
+.void-loader::after {
+  content: '';
   position: absolute;
-  height: calc(var(--uib-size) * 0.8);
-  width: calc(var(--uib-size) * 0.8);
-  border: calc(var(--uib-size) * 0.1) solid var(--uib-color);
+  height: 100%;
+  width: 100%;
   border-radius: 50%;
-  animation: pulsate var(--uib-speed) ease-in-out infinite;
+  background-color: var(--uib-color);
   opacity: 0.8;
+  animation: stream var(--uib-speed) ease-in infinite;
 }
 
-@keyframes rotate {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+.void-loader::after {
+  animation-delay: calc(var(--uib-speed) / -2);
 }
 
-@keyframes void-pulse {
+@keyframes stream {
   0% {
     transform: scale(1);
-    opacity: 1;
+    opacity: 0;
+  }
+  50% {
+    transform: scale(0.25);
+    opacity: 0.4;
   }
   100% {
     transform: scale(0);
@@ -39,4 +43,9 @@
 
 .dark .void-loader {
   --uib-color: hsl(var(--accent));
+}
+/* For smaller variants (like in buttons) */
+.void-loader.small {
+  --uib-size: 20px;
+  --uib-speed: 1.5s;
 }
