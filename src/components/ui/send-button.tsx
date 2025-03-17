@@ -21,7 +21,7 @@ export function SendButton({ loading, onClick, className }: SendButtonProps) {
       disabled={loading}
     >
       {loading ? (
-        <VoidLoader size={24} className="absolute inset-0 m-auto" />
+        <VoidLoader size={24} className="absolute inset-0 m-auto dark:bg-void-900" />
       ) : (
         <LoaderPinwheel className="h-6 w-6" />
       )}
