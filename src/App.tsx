@@ -15,11 +15,10 @@ const Test = React.lazy(() => import("./pages/Test"));
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      // Remove forced suspense as it can cause loading issues
-      // suspense: true,
-      retry: 2,
+      retry: 1,
       refetchOnWindowFocus: false,
       staleTime: 5 * 60 * 1000, // 5 minutes
+      suspense: false, // Disable suspense mode
     },
   },
 });
