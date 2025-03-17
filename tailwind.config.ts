@@ -144,5 +144,8 @@ export default {
 	plugins: [
 		require('flowbite/plugin'),
 		require('tailwindcss-animate')
-	]
+	],
+	corePlugins: {
+		preflight: true,
+	}
 } satisfies Config;

@@ -14,13 +14,5 @@ export default defineConfig(({ mode }) => ({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
-  },
-  css: {
-    preprocessorOptions: {
-      css: {
-        // This ensures our base styles are loaded before Flowbite
-        additionalData: `@import "./src/styles/flowbite-base.css";`
-      }
-    }
   }
 }));
