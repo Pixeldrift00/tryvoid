@@ -2,6 +2,7 @@
   --uib-size: 40px;
   --uib-color: hsl(var(--accent));
   --uib-speed: 2s;
+  --uib-rings: 8; /* Control number of rings */
   position: relative;
   display: flex;
   align-items: center;
@@ -10,10 +11,14 @@
   width: var(--uib-size);
 }
 
-.void-loader::before,
-.void-loader::after,
-.void-loader .inner::before,
-.void-loader .inner::after {
+.void-loader .ring-1,
+.void-loader .ring-2,
+.void-loader .ring-3,
+.void-loader .ring-4,
+.void-loader .ring-5,
+.void-loader .ring-6,
+.void-loader .ring-7,
+.void-loader .ring-8 {
   content: '';
   position: absolute;
   top: 0;
@@ -22,25 +27,46 @@
   width: 100%;
   border-radius: 50%;
   border: 2px solid var(--uib-color);
-  animation: continuous var(--uib-speed) linear infinite;
+  animation: stream var(--uib-speed) linear infinite;
   transform: scale(1);
   opacity: 0;
   background-color: transparent;
 }
 
-.void-loader::after {
-  animation-delay: calc(var(--uib-speed) / -4);
+/* Each ring is delayed by a fraction of the total animation time */
+.void-loader .ring-1 {
+  animation-delay: calc(var(--uib-speed) * 0);
 }
 
-.void-loader .inner::before {
-  animation-delay: calc(var(--uib-speed) * -0.5);
+.void-loader .ring-2 {
+  animation-delay: calc(var(--uib-speed) * -1);
 }
 
-.void-loader .inner::after {
-  animation-delay: calc(var(--uib-speed) * -0.75);
+.void-loader .ring-3 {
+  animation-delay: calc(var(--uib-speed) * -2);
 }
 
-@keyframes continuous {
+.void-loader .ring-4 {
+  animation-delay: calc(var(--uib-speed) * -3);
+}
+
+.void-loader .ring-5 {
+  animation-delay: calc(var(--uib-speed) * -4);
+}
+
+.void-loader .ring-6 {
+  animation-delay: calc(var(--uib-speed) * -5);
+}
+
+.void-loader .ring-7 {
+  animation-delay: calc(var(--uib-speed) * -6);
+}
+
+.void-loader .ring-8 {
+  animation-delay: calc(var(--uib-speed) * -7);
+}
+
+@keyframes stream {
   0% {
     transform: scale(1);
     opacity: 0.8;
