@@ -38,31 +38,31 @@
 }
 
 .void-loader .ring-2 {
-  animation-delay: calc(var(--uib-speed) * -.125);
+  animation-delay: calc(var(--uib-speed) * .125);
 }
 
 .void-loader .ring-3 {
-  animation-delay: calc(var(--uib-speed) * -.250);
+  animation-delay: calc(var(--uib-speed) * .250);
 }
 
 .void-loader .ring-4 {
-  animation-delay: calc(var(--uib-speed) * -.375);
+  animation-delay: calc(var(--uib-speed) * .375);
 }
 
 .void-loader .ring-5 {
-  animation-delay: calc(var(--uib-speed) * -.5);
+  animation-delay: calc(var(--uib-speed) * .5);
 }
 
 .void-loader .ring-6 {
-  animation-delay: calc(var(--uib-speed) * -.625);
+  animation-delay: calc(var(--uib-speed) * .625);
 }
 
 .void-loader .ring-7 {
-  animation-delay: calc(var(--uib-speed) * -.75);
+  animation-delay: calc(var(--uib-speed) * .75);
 }
 
 .void-loader .ring-8 {
-  animation-delay: calc(var(--uib-speed) * -.875);
+  animation-delay: calc(var(--uib-speed) * .875);
 }
 
 @keyframes stream {
