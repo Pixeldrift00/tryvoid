@@ -52,47 +52,51 @@ export default function Settings() {
             <ArrowLeft className="h-5 w-5" />
           </Button>
 
-          {/* Vertical Tabs */}
-          <div className="w-16 border-r border-border shrink-0 relative">
-            <TabsList className="flex flex-col gap-2 fixed pt-16 w-16">
-              {tabs.map((tab) => (
-                <div
-                  key={tab.id}
-                  className="relative"
-                  onMouseEnter={() => setHoveredTab(tab.id)}
-                  onMouseLeave={() => setHoveredTab(null)}
-                >
-                  <TabsTrigger
-                    value={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    className="w-16 h-16 rounded-none flex items-center justify-center"
-                  >
-                    <tab.icon className="h-5 w-5" />
-                  </TabsTrigger>
-                  {/* Tooltip */}
+          {/* Tabs Container */}
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="flex flex-1">
+            {/* Vertical Tabs */}
+            <div className="w-16 border-r border-border shrink-0 relative">
+              <TabsList className="flex flex-col gap-2 fixed pt-16 w-16">
+                {tabs.map((tab) => (
                   <div
-                    className={cn(
-                      "absolute left-16 top-1/2 -translate-y-1/2 bg-popover text-popover-foreground px-3 py-1.5 rounded-md whitespace-nowrap z-50 transition-all",
-                      hoveredTab === tab.id ? "opacity-100 translate-x-2" : "opacity-0 translate-x-0 pointer-events-none"
-                    )}
+                    key={tab.id}
+                    className="relative"
+                    onMouseEnter={() => setHoveredTab(tab.id)}
+                    onMouseLeave={() => setHoveredTab(null)}
                   >
-                    {tab.label}
+                    <TabsTrigger
+                      value={tab.id}
+                      className="w-16 h-16 rounded-none flex items-center justify-center"
+                    >
+                      <tab.icon className="h-5 w-5" />
+                    </TabsTrigger>
+                    {/* Tooltip */}
+                    <div
+                      className={cn(
+                        "absolute left-16 top-1/2 -translate-y-1/2 bg-popover text-popover-foreground px-3 py-1.5 rounded-md whitespace-nowrap z-50 transition-all",
+                        hoveredTab === tab.id ? "opacity-100 translate-x-2" : "opacity-0 translate-x-0 pointer-events-none"
+                      )}
+                    >
+                      {tab.label}
+                    </div>
                   </div>
-                </div>
-              ))}
-            </TabsList>
-          </div>
+                ))}
+              </TabsList>
+            </div>
 
-          {/* Content */}
-          <div className="flex-1 p-4 md:p-6 lg:p-8 pt-16">
-            <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">Settings</h1>
-            
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            {/* Content */}
+            <div className="flex-1 p-4 md:p-6 lg:p-8 pt-16">
+              <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">Settings</h1>
+              
               <div className="space-y-4 md:space-y-6">
-                {renderTabContent(activeTab)}
+                {tabs.map((tab) => (
+                  <TabsContent key={tab.id} value={tab.id}>
+                    {renderTabContent(tab.id)}
+                  </TabsContent>
+                ))}
               </div>
-            </Tabs>
-          </div>
+            </div>
+          </Tabs>
         </div>
       </div>
     </Layout>
