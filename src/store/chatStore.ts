@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
 import { Message, Branch, Suggestion, ConversationNode } from '@/types';
+import { useLLMConfig } from './llmConfig';
+import { formatChatPrompt, formatSuggestionsPrompt } from '@/lib/prompts';
 
 interface ChatState {
   branches: Branch[];
@@ -10,9 +12,9 @@ interface ChatState {
   rootNode: ConversationNode | null;
   
   // Actions
-  sendMessage: (content: string) => void;
+  sendMessage: (content: string) => Promise<void>;
   selectBranch: (branchId: string) => void;
-  generateSuggestions: (parentMessageId: string) => void;
+  generateSuggestions: (parentMessageId: string) => Promise<void>;
   selectSuggestion: (suggestion: Suggestion) => void;
   toggleRadialView: () => void;
   buildConversationTree: () => void;
@@ -67,7 +69,7 @@ export const useChatStore = create<ChatState>((set, get) => ({
   isRadialViewOpen: false,
   rootNode: null,
   
-  sendMessage: async (content) => {
+  sendMessage: async (content: string) => {
     const { branches, activeBranchId } = get();
     const activeBranch = branches.find(b => b.id === activeBranchId);
     
@@ -83,7 +85,7 @@ export const useChatStore = create<ChatState>((set, get) => ({
       parentMessageId: activeBranch.messages[activeBranch.messages.length - 1].id
     };
     
-    // Add user message to active branch
+    // Add user message
     set(state => ({
       branches: state.branches.map(branch => 
         branch.id === activeBranchId 
@@ -91,51 +93,105 @@ export const useChatStore = create<ChatState>((set, get) => ({
           : branch
       )
     }));
-    
-    // Simulate AI thinking
-    await delay(1500);
-    
-    // Generate AI response
-    const aiResponseId = uuidv4();
-    const aiResponse: Message = {
-      id: aiResponseId,
-      content: `I've processed your request about "${content}". Here's a thoughtful response that demonstrates the power of infinite branching conversations.`,
-      sender: 'ai',
-      timestamp: new Date(),
-      branchId: activeBranchId,
-      parentMessageId: newMessageId
-    };
-    
-    // Add AI response to active branch
-    set(state => ({
-      branches: state.branches.map(branch => 
-        branch.id === activeBranchId 
-          ? { ...branch, messages: [...branch.messages, aiResponse], updatedAt: new Date() }
-          : branch
-      )
-    }));
-    
-    // Generate new suggestions
-    get().generateSuggestions(aiResponseId);
+
+    try {
+      const llmService = useLLMConfig.getState().getLLMService();
+      
+      // Format conversation history
+      const messages = activeBranch.messages.map(msg => ({
+        role: msg.sender === 'user' ? 'user' : 'assistant',
+        content: msg.content,
+      }));
+
+      // Get AI response
+      const response = await llmService.complete(messages, {
+        streaming: {
+          enabled: true,
+          onToken: (token) => {
+            // Update UI with streaming tokens
+            set(state => ({
+              branches: state.branches.map(branch =>
+                branch.id === activeBranchId
+                  ? {
+                      ...branch,
+                      messages: branch.messages.map(msg =>
+                        msg.id === aiMessage.id
+                          ? { ...msg, content: msg.content + token }
+                          : msg
+                      ),
+                    }
+                  : branch
+              ),
+            }));
+          },
+        },
+      });
+
+      const aiMessage: Message = {
+        id: uuidv4(),
+        content: response.content,
+        sender: 'ai',
+        timestamp: new Date(),
+        branchId: activeBranchId,
+        parentMessageId: newMessageId,
+      };
+
+      // Add AI message
+      set(state => ({
+        branches: state.branches.map(branch =>
+          branch.id === activeBranchId
+            ? { ...branch, messages: [...branch.messages, aiMessage], updatedAt: new Date() }
+            : branch
+        ),
+      }));
+
+      // Generate new suggestions
+      await get().generateSuggestions(aiMessage.id);
+    } catch (error) {
+      console.error('Failed to get AI response:', error);
+      // Handle error appropriately
+    }
   },
   
   selectBranch: (branchId) => {
     set({ activeBranchId: branchId });
   },
   
-  generateSuggestions: (parentMessageId) => {
-    // In a real app, this would call an AI service
-    const newSuggestions = mockSuggestions
-      .sort(() => Math.random() - 0.5)
-      .slice(0, 6)
-      .map(content => ({
-        id: uuidv4(),
-        content,
-        branchId: null,
-        parentMessageId
-      }));
-    
-    set({ suggestions: newSuggestions });
+  generateSuggestions: async (parentMessageId: string) => {
+    try {
+      const llmService = useLLMConfig.getState().getLLMService();
+      const { branches } = get();
+      
+      // Find the message and its context
+      const parentMessage = branches
+        .flatMap(b => b.messages)
+        .find(m => m.id === parentMessageId);
+      
+      if (!parentMessage) return;
+
+      const response = await llmService.complete([
+        {
+          role: 'system',
+          content: formatSuggestionsPrompt(parentMessage.content),
+        },
+      ]);
+
+      // Parse suggestions from response
+      const suggestions = response.content
+        .split('\n')
+        .filter(Boolean)
+        .map(content => ({
+          id: uuidv4(),
+          content: content.trim(),
+          parentMessageId,
+          branchId: null,
+        }));
+
+      set({ suggestions });
+    } catch (error) {
+      console.error('Failed to generate suggestions:', error);
+      // Handle error appropriately
+    }
   },
   
   selectSuggestion: async (suggestion) => {

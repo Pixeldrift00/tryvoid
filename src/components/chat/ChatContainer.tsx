@@ -15,12 +15,16 @@ const ChatContainer: React.FC = () => {
         <MessageList messages={activeBranch?.messages || []} />
       </div>
       
-      <div className="mb-4">
-        <SuggestionCarousel suggestions={suggestions} />
-      </div>
-      
-      <div className="w-full">
-        <MessageInput />
+      <div className="fixed bottom-0 left-0 right-0 bg-background/80 backdrop-blur-sm">
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="mb-4">
+            <SuggestionCarousel suggestions={suggestions} />
+          </div>
+          
+          <div className="w-full mb-4">
+            <MessageInput />
+          </div>
+        </div>
       </div>
     </div>
   );
