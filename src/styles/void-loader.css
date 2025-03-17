@@ -2,7 +2,6 @@
   --uib-size: 40px;
   --uib-color: hsl(var(--accent));
   --uib-speed: 2s;
-  --uib-rings: 8; /* Control number of rings */
   position: relative;
   display: flex;
   align-items: center;
@@ -11,14 +10,10 @@
   width: var(--uib-size);
 }
 
-.void-loader .ring-1,
-.void-loader .ring-2,
-.void-loader .ring-3,
-.void-loader .ring-4,
-.void-loader .ring-5,
-.void-loader .ring-6,
-.void-loader .ring-7,
-.void-loader .ring-8 {
+.void-loader::before,
+.void-loader::after,
+.void-loader .inner::before,
+.void-loader .inner::after {
   content: '';
   position: absolute;
   top: 0;
@@ -27,46 +22,25 @@
   width: 100%;
   border-radius: 50%;
   border: 2px solid var(--uib-color);
-  animation: stream var(--uib-speed) linear infinite;
+  animation: continuous var(--uib-speed) linear infinite;
   transform: scale(1);
   opacity: 0;
   background-color: transparent;
 }
 
-/* Each ring is delayed by a fraction of the total animation time */
-.void-loader .ring-1 {
-  animation-delay: calc(var(--uib-speed) * 0 / var(--uib-rings));
+.void-loader::after {
+  animation-delay: calc(var(--uib-speed) / -4);
 }
 
-.void-loader .ring-2 {
-  animation-delay: calc(var(--uib-speed) * -1 / var(--uib-rings));
+.void-loader .inner::before {
+  animation-delay: calc(var(--uib-speed) * -0.5);
 }
 
-.void-loader .ring-3 {
-  animation-delay: calc(var(--uib-speed) * -2 / var(--uib-rings));
+.void-loader .inner::after {
+  animation-delay: calc(var(--uib-speed) * -0.75);
 }
 
-.void-loader .ring-4 {
-  animation-delay: calc(var(--uib-speed) * -3 / var(--uib-rings));
-}
-
-.void-loader .ring-5 {
-  animation-delay: calc(var(--uib-speed) * -4 / var(--uib-rings));
-}
-
-.void-loader .ring-6 {
-  animation-delay: calc(var(--uib-speed) * -5 / var(--uib-rings));
-}
-
-.void-loader .ring-7 {
-  animation-delay: calc(var(--uib-speed) * -6 / var(--uib-rings));
-}
-
-.void-loader .ring-8 {
-  animation-delay: calc(var(--uib-speed) * -7 / var(--uib-rings));
-}
-
-@keyframes stream {
+@keyframes continuous {
   0% {
     transform: scale(1);
     opacity: 0.8;
