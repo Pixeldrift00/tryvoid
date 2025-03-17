@@ -8,8 +8,6 @@ export default {
 		"./components/**/*.{ts,tsx}",
 		"./app/**/*.{ts,tsx}",
 		"./src/**/*.{ts,tsx}",
-		"./node_modules/flowbite-react/**/*.js",
-		"./node_modules/flowbite/**/*.js",
 	],
 	prefix: "",
 	theme: {
@@ -142,7 +140,6 @@ export default {
 		}
 	},
 	plugins: [
-		require('flowbite/plugin'),
 		require('tailwindcss-animate')
 	],
 	corePlugins: {
