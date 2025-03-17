@@ -11,15 +11,14 @@
   overflow: hidden;
 }
 
-.void-loader::before,
-.void-loader::after,
 .void-loader .circle-1,
 .void-loader .circle-2,
 .void-loader .circle-3,
 .void-loader .circle-4,
 .void-loader .circle-5,
-.void-loader .circle-6 {
-  content: '';
+.void-loader .circle-6,
+.void-loader .circle-7,
+.void-loader .circle-8 {
   position: absolute;
   height: 100%;
   width: 100%;
@@ -30,35 +29,35 @@
 }
 
 /* Each circle is at a fixed point in the animation */
-.void-loader::before {
+.void-loader .circle-1 {
   animation-delay: calc(var(--uib-speed) * 0);
 }
 
-.void-loader::after {
+.void-loader .circle-2 {
   animation-delay: calc(var(--uib-speed) * 0.125);
 }
 
-.void-loader .circle-1 {
+.void-loader .circle-3 {
   animation-delay: calc(var(--uib-speed) * 0.25);
 }
 
-.void-loader .circle-2 {
+.void-loader .circle-4 {
   animation-delay: calc(var(--uib-speed) * 0.375);
 }
 
-.void-loader .circle-3 {
+.void-loader .circle-5 {
   animation-delay: calc(var(--uib-speed) * 0.5);
 }
 
-.void-loader .circle-4 {
+.void-loader .circle-6 {
   animation-delay: calc(var(--uib-speed) * 0.625);
 }
 
-.void-loader .circle-5 {
+.void-loader .circle-7 {
   animation-delay: calc(var(--uib-speed) * 0.75);
 }
 
-.void-loader .circle-6 {
+.void-loader .circle-8 {
   animation-delay: calc(var(--uib-speed) * 0.875);
 }
 

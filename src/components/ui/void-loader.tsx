@@ -23,7 +23,9 @@ export const VoidLoader: React.FC<VoidLoaderProps> = ({
         height: size,
       } as React.CSSProperties}
     >
-      <div></div>
+      {[...Array(8)].map((_, i) => (
+        <div key={i} className={`circle-${i + 1}`} />
+      ))}
     </div>
   );
 };
