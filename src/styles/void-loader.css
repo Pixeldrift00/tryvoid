@@ -1,4 +1,8 @@
 .void-loader {
+  --uib-size: 45px;
+  --uib-color: hsl(var(--primary));
+  --uib-speed: 2s;
+
   position: relative;
   display: flex;
   align-items: center;
@@ -7,14 +11,19 @@
   width: var(--uib-size);
 }
 
-.void-loader > div {
+.void-loader > div,
+.void-loader::before,
+.void-loader::after,
+.void-loader > div::before,
+.void-loader > div::after {
   position: absolute;
-  top: 0;
-  left: 0;
   height: 100%;
   width: 100%;
   border-radius: 50%;
   background-color: var(--uib-color);
+}
+
+.void-loader > div {
   opacity: 0.5;
   animation: void-pulse var(--uib-speed) ease-in-out infinite;
 }
@@ -24,18 +33,8 @@
 .void-loader > div::before,
 .void-loader > div::after {
   content: '';
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  border-radius: 50%;
-  background-color: var(--uib-color);
-  
-  --uib-size: 45px;
-  --uib-color: hsl(var(--primary));
-  --uib-speed: 2s;
-  
-  animation: void-pulse var(--uib-speed) ease-in-out infinite;
   transform: scale(0);
+  animation: void-pulse var(--uib-speed) ease-in-out infinite;
 }
 
 .void-loader::after {

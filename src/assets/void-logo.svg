@@ -1,0 +1,27 @@
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Perspective transform for tilt -->
+  <g transform="translate(200 200) rotate3d(1, 0, 0, 30) translate(-200 -200)">
+    <!-- Outer rings -->
+    <ellipse cx="200" cy="200" rx="160" ry="120" stroke="currentColor" stroke-width="8" fill="none"/>
+    <ellipse cx="200" cy="200" rx="120" ry="90" stroke="currentColor" stroke-width="8" fill="none"/>
+    <ellipse cx="200" cy="200" rx="80" ry="60" stroke="currentColor" stroke-width="8" fill="none"/>
+    <ellipse cx="200" cy="200" rx="40" ry="30" stroke="currentColor" stroke-width="8" fill="none"/>
+    
+    <!-- Vertical lines -->
+    <g stroke="currentColor" stroke-width="8">
+      <!-- Front lines -->
+      <path d="M120,160 L160,240"/>
+      <path d="M280,160 L240,240"/>
+      <path d="M200,140 L200,240"/>
+      <path d="M160,160 L180,240"/>
+      <path d="M240,160 L220,240"/>
+      
+      <!-- Side lines -->
+      <path d="M100,180 L140,240" opacity="0.6"/>
+      <path d="M300,180 L260,240" opacity="0.6"/>
+      
+      <!-- Center point -->
+      <circle cx="200" cy="240" r="8" fill="currentColor"/>
+    </g>
+  </g>
+</svg>
