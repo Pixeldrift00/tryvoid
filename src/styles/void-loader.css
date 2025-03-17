@@ -29,14 +29,13 @@
   width: 100%;
   border-radius: 50%;
   background-color: var(--uib-color);
-  opacity: 0.5;
   
   --uib-size: 45px;
   --uib-color: hsl(var(--primary));
   --uib-speed: 2s;
   
   animation: void-pulse var(--uib-speed) ease-in-out infinite;
-  transform: scale(2);
+  transform: scale(0);
 }
 
 .void-loader::after {

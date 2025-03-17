@@ -14,14 +14,14 @@ export function SendButton({ loading, onClick, className }: SendButtonProps) {
     <Button
       onClick={onClick}
       className={cn(
-        "rounded-full w-10 h-10 p-0 flex items-center justify-center",
+        "rounded-full w-10 h-10 p-0 flex items-center justify-center relative",
         loading && "cursor-not-allowed",
         className
       )}
       disabled={loading}
     >
       {loading ? (
-        <VoidLoader size={24} className="scale-75" />
+        <VoidLoader size={24} className="absolute inset-0 m-auto" />
       ) : (
         <LoaderPinwheel className="h-5 w-5" />
       )}
