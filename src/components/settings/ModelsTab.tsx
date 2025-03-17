@@ -2,24 +2,36 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Plus, X, Edit2, Save, Trash2 } from 'lucide-react';
+import { Plus, X, Edit2, Save, Trash2, Check } from 'lucide-react';
 import { useLLMConfig } from '@/store/llmConfig';
 import { BaseProvider } from '@/lib/llm/provider';
+import AddProviderModal from './AddProviderModal';
+import { Badge } from '@/components/ui/badge';
+import { Switch } from '@/components/ui/switch';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 export default function ModelsTab() {
-  const { providers, registerProvider, removeProvider, updateProviderConfig } = useLLMConfig();
+  const { providers, registerProvider, removeProvider, updateProviderConfig, activeProviderId, setActiveProvider } = useLLMConfig();
   const [editingProvider, setEditingProvider] = useState<string | null>(null);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   const handleSaveProvider = (provider: BaseProvider) => {
     updateProviderConfig(provider.id, provider);
     setEditingProvider(null);
   };
 
+  const handleActivateProvider = (providerId: string) => {
+    setActiveProvider(providerId);
+  };
+
   return (
-    <div className="space-y-6 p-6">
+    <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Models & Providers</h2>
-        <Button variant="outline" size="sm" onClick={() => {/* Add new provider modal */}}>
+        <div>
+          <h2 className="text-2xl font-bold">Models & Providers</h2>
+          <p className="text-muted-foreground">Configure your AI model providers and API keys</p>
+        </div>
+        <Button onClick={() => setShowAddModal(true)}>
           <Plus className="w-4 h-4 mr-2" />
           Add Provider
         </Button>
@@ -29,9 +41,14 @@ export default function ModelsTab() {
         {Object.values(providers).map((provider) => (
           <Card key={provider.id}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-xl font-medium">
-                {provider.name}
-              </CardTitle>
+              <div className="flex items-center gap-3">
+                <CardTitle className="text-xl font-medium">
+                  {provider.name}
+                </CardTitle>
+                {provider.id === activeProviderId && (
+                  <Badge variant="success">Active</Badge>
+                )}
+              </div>
               <div className="flex gap-2">
                 {editingProvider === provider.id ? (
                   <Button
@@ -42,13 +59,27 @@ export default function ModelsTab() {
                     <Save className="w-4 h-4" />
                   </Button>
                 ) : (
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    onClick={() => setEditingProvider(provider.id)}
-                  >
-                    <Edit2 className="w-4 h-4" />
-                  </Button>
+                  <>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => handleActivateProvider(provider.id)}
+                        >
+                          <Check className="w-4 h-4" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>Set as active provider</TooltipContent>
+                    </Tooltip>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => setEditingProvider(provider.id)}
+                    >
+                      <Edit2 className="w-4 h-4" />
+                    </Button>
+                  </>
                 )}
                 <Button
                   size="sm"
@@ -82,6 +113,7 @@ export default function ModelsTab() {
                         ...provider,
                         baseUrl: e.target.value
                       })}
+                      placeholder="https://api.example.com"
                     />
                   </div>
                   <div>
@@ -125,9 +157,9 @@ export default function ModelsTab() {
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {provider.supportedModels.map((model) => (
-                      <div key={model} className="bg-secondary rounded-full px-3 py-1">
-                        <span className="text-sm">{model}</span>
-                      </div>
+                      <Badge key={model} variant="secondary">
+                        {model}
+                      </Badge>
                     ))}
                   </div>
                 </div>
@@ -136,6 +168,8 @@ export default function ModelsTab() {
           </Card>
         ))}
       </div>
+
+      <AddProviderModal open={showAddModal} onOpenChange={setShowAddModal} />
     </div>
   );
 }
